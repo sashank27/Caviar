@@ -1,5 +1,6 @@
 venv/*
-
+myvenv/*
+.idea/*
 hotel/__pycache__/
 .vscode/
 reflex/__pycache__/

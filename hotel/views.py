@@ -31,3 +31,6 @@ def signup(request):
 def users(request):
     customers = Customer.objects.filter()
     return render(request, 'tables.html', {'users':customers})
+
+def order(request):
+    return render(request, 'order.html')
