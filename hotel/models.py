@@ -69,10 +69,10 @@ class Order(models.Model):
         (pickup, pickup),
         (delivery, delivery),
     )
-    
+
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
-    order_timestamp = models.DateTimeField(blank=True)
-    delivery_timestamp = models.DateTimeField(blank=True)
+    order_timestamp = models.CharField(max_length=30, blank=True)
+    delivery_timestamp = models.CharField(max_length=30, blank=True)
     payment_status = models.CharField(max_length = 30, choices = STATUS)
     delivery_status = models.CharField(max_length = 30, choices = STATUS)
     if_cancelled = models.BooleanField(default = False)
@@ -81,17 +81,17 @@ class Order(models.Model):
     location = models.CharField(max_length=200, blank=True, null=True)
 
     def confirmOrder(self):
-        self.order_timestamp = timezone.now()
+        self.order_timestamp = timezone.localtime().__str__()[:19]
         self.payment_status = self.completed
         self.save()
 
     def confirmDelivery(self):
-        self.delivery_timestamp = timezone.now()
+        self.delivery_timestamp = timezone.localtime().__str__()[:19]
         self.delivery_status = self.completed
         self.save()
     
     def __str__(self):
-        return self.customer.first_name + " " + self.customer.last_name
+        return self.customer.__str__()
 
 class Food(models.Model):
     indian = 'Indian'
@@ -119,6 +119,9 @@ class Food(models.Model):
     content_description = models.TextField()
     base_price = models.FloatField()
     discount = models.DecimalField(default=0, decimal_places=2, max_digits=5)
+
+    def __str__(self):
+        return self.name
     
     #sale_price = (100.0 - float(discount))/100.0 * float(base_price)
 
@@ -130,3 +133,7 @@ class Data(models.Model):
     date = models.DateField()
     sales = models.IntegerField()
     expenses = models.IntegerField()
+
+class OrderContent(models.Model):
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
