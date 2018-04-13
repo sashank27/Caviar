@@ -44,11 +44,11 @@ def menu(request):
 
 def signup(request):
     return render(request, 'registration/signup.html')
-    return render(request, 'menu.html')
 
 def users(request):
     customers = Customer.objects.filter()
-    return render(request, 'tables.html', {'users':customers})
+    return render(request, 'users.html', {'users':customers})
 
-def order(request):
-    return render(request, 'order.html')
+def orders(request):
+    orders = Order.objects.filter()
+    return render(request, 'orders.html', {'orders':orders})

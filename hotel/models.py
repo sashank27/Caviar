@@ -11,14 +11,14 @@ class Customer(models.Model):
         (verified,verified),
     )
 
-    cust = models.ForeignKey(User, on_delete=models.CASCADE)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.TextField()
     contact = models.CharField(max_length = 10)
     orders = models.IntegerField(default=0)
     total_sale = models.IntegerField(default=0)
-    
+
     def __str__(self):
-        return self.cust.first_name + " " + self.cust.last_name
+        return self.customer.first_name + " " + self.customer.last_name
 
 class Staff(models.Model):
     admin = 'Admin'
@@ -45,12 +45,10 @@ class Staff(models.Model):
 
 class Order(models.Model):
     pending = 'Pending'
-    process = 'Processing'
     completed = 'Completed'
 
     STATUS = (
         (pending,pending),
-        (process,process),
         (completed,completed),
     )
 
@@ -72,8 +70,7 @@ class Order(models.Model):
         (delivery, delivery),
     )
     
-    #order_id = 
-    cust_id = models.ForeignKey(Customer,on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
     order_timestamp = models.DateTimeField(blank=True)
     delivery_timestamp = models.DateTimeField(blank=True)
     payment_status = models.CharField(max_length = 30, choices = STATUS)
@@ -85,11 +82,16 @@ class Order(models.Model):
 
     def confirmOrder(self):
         self.order_timestamp = timezone.now()
+        self.payment_status = self.completed
         self.save()
 
     def confirmDelivery(self):
         self.delivery_timestamp = timezone.now()
+        self.delivery_status = self.completed
         self.save()
+    
+    def __str__(self):
+        return self.customer.first_name + " " + self.customer.last_name
 
 class Food(models.Model):
     indian = 'Indian'
