@@ -14,8 +14,6 @@ class Customer(models.Model):
     cust = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.TextField()
     contact = models.CharField(max_length = 10)
-    date_registered = models.DateTimeField(auto_now=timezone.now())
-    status = models.CharField(max_length=20, choices = STATUS, default = pending)
     orders = models.IntegerField(default=0)
     total_sale = models.IntegerField(default=0)
     
@@ -65,6 +63,14 @@ class Order(models.Model):
         (card,card),
         (upi,upi),
     )
+
+    pickup = 'PickUp'
+    delivery = 'Delivery'
+
+    TYPE = (
+        (pickup, pickup),
+        (delivery, delivery),
+    )
     
     #order_id = 
     cust_id = models.ForeignKey(Customer,on_delete=models.CASCADE)
@@ -75,6 +81,7 @@ class Order(models.Model):
     if_cancelled = models.BooleanField(default = False)
     total_amount = models.IntegerField()
     payment_method = models.CharField(max_length = 30, choices = PAYMENT)
+    location = models.CharField(max_length=200, blank=True, null=True)
 
     def confirmOrder(self):
         self.order_timestamp = timezone.now()
@@ -102,3 +109,7 @@ class Food(models.Model):
     discount = models.DecimalField(default=0, decimal_places=2, max_digits=5)
     
     #sale_price = (100.0 - float(discount))/100.0 * float(base_price)
+
+class Comment(models.Model):
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    content = models.CharField(max_length=250)

@@ -373,7 +373,7 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">26</div>
+                                    <div class="huge">{{comments}}</div>
                                     <div>New Comments!</div>
                                 </div>
                             </div>
@@ -395,8 +395,8 @@
                                     <i class="fa fa-tasks fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">12</div>
-                                    <div>New Tasks!</div>
+                                    <div class="huge">{{customers}}</div>
+                                    <div>Total Customers</div>
                                 </div>
                             </div>
                         </div>
@@ -417,8 +417,8 @@
                                     <i class="fa fa-shopping-cart fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">124</div>
-                                    <div>New Orders!</div>
+                                    <div class="huge">{{orders}}</div>
+                                    <div>Total Orders!</div>
                                 </div>
                             </div>
                         </div>
@@ -439,8 +439,8 @@
                                     <i class="fa fa-support fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">13</div>
-                                    <div>Support Tickets!</div>
+                                    <div class="huge">{{sales}}</div>
+                                    <div>Total Sales</div>
                                 </div>
                             </div>
                         </div>
@@ -706,60 +706,27 @@
                 <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Notifications Panel
+                            <i class="fa fa-bell fa-fw"></i> Top Customers
                         </div>
                         <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small"><em>4 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
-                                    <span class="pull-right text-muted small"><em>12 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
-                                    <span class="pull-right text-muted small"><em>27 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-tasks fa-fw"></i> New Task
-                                    <span class="pull-right text-muted small"><em>43 minutes ago</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
-                                    <span class="pull-right text-muted small"><em>11:32 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-bolt fa-fw"></i> Server Crashed!
-                                    <span class="pull-right text-muted small"><em>11:13 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-warning fa-fw"></i> Server Not Responding
-                                    <span class="pull-right text-muted small"><em>10:57 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-shopping-cart fa-fw"></i> New Order Placed
-                                    <span class="pull-right text-muted small"><em>9:49 AM</em>
-                                    </span>
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    <i class="fa fa-money fa-fw"></i> Payment Received
-                                    <span class="pull-right text-muted small"><em>Yesterday</em>
-                                    </span>
-                                </a>
-                            </div>
-                            <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Alerts</a>
-                        </div>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Customer Name</th>
+                              <th scope="col">#Orders</th>
+                              <th scope="col">Total Sale</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for customer in top_customers %}
+                            <tr>
+                              <td>{{customer.cust.first_name}} {{customer.cust.last_name}}</td>
+                              <td>{{customer.orders}}</td>
+                              <td>{{customer.total_sale}}</td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
                         <!-- /.panel-body -->
                     </div>
                     <!-- /.panel -->
@@ -893,6 +860,49 @@
                     <!-- /.panel .chat-panel -->
                 </div>
                 <!-- /.col-lg-4 -->
+            </div>
+            <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-bell fa-fw"></i> Latest Orders
+                        </div>
+                        <!-- /.panel-heading -->
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">ID</th>
+                              <th scope="col">Location</th>
+                              <th scope="col">Customer Name</th>
+                              <th scope="col">Type</th>
+                              <th scope="col">Order Timestamp</th>
+                              <th scope="col">Total Amount</th>
+                              <th scope="col">Satus</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {% for order in latest_orders %}
+                            <tr>
+                              <td>{{order.id}}</td>
+                              <td>{{order.location}}</td>
+                              <td>{{order.cust_id.cust.first_name}} {{order.cust_id.cust.last_name}}</td>
+                              <td>Delivery</td>
+                              <td>{{order.order_timestamp}}</td>
+                              <td>{{order.total_amount}}</td>
+                              <td>
+                                  {% if order.delivery_status == "Completed" %}
+                                    <span class="label label-success">Delivered</span>
+                                  {% elif order.delivery_status == "Processing" %}
+                                    <span class="label label-warning">Processing</span>
+                                  {% else %}
+                                    <span class="label label-danger">Pending</span>
+                                  {% endif %}
+                              </td>
+                            </tr>
+                            {% endfor %}
+                          </tbody>
+                        </table>
+                        <!-- /.panel-body -->
+                    </div>
             </div>
             <!-- /.row -->
         </div>
