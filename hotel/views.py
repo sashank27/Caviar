@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from reportlab.pdfgen import canvas
-from .models import Customer, Comment, Order, Food
+from .models import Customer, Comment, Order, Food, Data
 
 # Create your views here.
 def index(request):
@@ -25,6 +25,7 @@ def index(request):
     completed_orders = Order.objects.filter(delivery_status="Completed")
     top_customers = Customer.objects.filter().order_by('-total_sale')
     latest_orders = Order.objects.filter().order_by('-order_timestamp')
+    datas = Data.objects.filter()
     sales = 0
     for order in completed_orders:
         sales += order.total_amount
@@ -36,6 +37,7 @@ def index(request):
         'sales':sales,
         'top_customers': top_customers,
         'latest_orders':latest_orders,
+        'datas':datas,
     }
     return render(request, 'index.html', context)
 
@@ -48,6 +50,7 @@ def signup(request):
 
 def users(request):
     customers = Customer.objects.filter()
+    print(customers)
     return render(request, 'users.html', {'users':customers})
 
 def orders(request):

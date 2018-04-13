@@ -125,3 +125,8 @@ class Food(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(Customer, on_delete=models.CASCADE)
     content = models.CharField(max_length=250)
+
+class Data(models.Model):
+    date = models.DateField()
+    sales = models.IntegerField()
+    expenses = models.IntegerField()

@@ -402,15 +402,15 @@
                                     {% for user in users %}
                                     <tr>
                                         <td>{{user.id}}</td>
-                                        <td>{{user.cust.first_name}}</td>
-                                        <td>{{user.cust.last_name}}</td>
-                                        <td>{{user.cust.email}}</td>
+                                        <td>{{user.customer.first_name}}</td>
+                                        <td>{{user.customer.last_name}}</td>
+                                        <td>{{user.customer.email}}</td>
                                         <td>{{user.contact}}</td>
                                         <td>{{user.address}}</td>
                                         <td>{{user.date_registered}}</td>
                                         <td>{% if user.status == 'Verified' %}
                                         <span class="label label-success">Verified</span>
-                                        {% else %} 
+                                        {% else %}
                                         <span class="label label-danger">Pending</span>
                                         {% endif %}
                                         </td>
