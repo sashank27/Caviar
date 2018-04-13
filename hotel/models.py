@@ -3,15 +3,24 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Customer(models.Model):
-    cust_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    first_name = User.first_name
-    last_name = User.last_name
+    pending = 'Pending'
+    verified = 'Verified'
+
+    STATUS = (
+        (pending,pending),
+        (verified,verified),
+    )
+
+    cust = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.TextField()
     contact = models.CharField(max_length = 10)
-    email = User.email
+    date_registered = models.DateTimeField(auto_now=timezone.now())
+    status = models.CharField(max_length=20, choices = STATUS, default = pending)
+    orders = models.IntegerField(default=0)
+    total_sale = models.IntegerField(default=0)
     
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.cust.first_name + " " + self.cust.last_name
 
 class Staff(models.Model):
     admin = 'Admin'

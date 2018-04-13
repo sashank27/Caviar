@@ -15,6 +15,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from reportlab.pdfgen import canvas
+from .models import Customer
 
 # Create your views here.
 def index(request):        
@@ -25,3 +26,8 @@ def menu(request):
 
 def signup(request):
     return render(request, 'registration/signup.html')
+    return render(request, 'menu.html')
+
+def users(request):
+    customers = Customer.objects.filter()
+    return render(request, 'tables.html', {'users':customers})
