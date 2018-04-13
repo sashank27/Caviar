@@ -21,4 +21,7 @@ def index(request):
     return render(request, 'index.html')
 
 def menu(request):        
-    return render(request, 'menu.html')
+    return render(request, 'forms.html')
+
+def signup(request):
+    return render(request, 'registration/signup.html')

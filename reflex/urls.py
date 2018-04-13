@@ -27,5 +27,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^accounts/login/$', auth_views.LoginView.as_view(redirect_authenticated_user=True), name='login'),
     url(r'^accounts/logout/$', auth_views.logout, name='logout', kwargs={'next_page':'/'}),
+    url(r'^accounts/signup/$', views.signup, name='signup'),
     url(r'', include(('hotel.urls', 'hotel'), namespace='hotel')),
 ]
