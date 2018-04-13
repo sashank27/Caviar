@@ -15,7 +15,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from reportlab.pdfgen import canvas
-from .models import Customer, Comment, Order
+from .models import Customer, Comment, Order, Food
 
 # Create your views here.
 def index(request):
@@ -39,8 +39,9 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def menu(request):        
-    return render(request, 'forms.html')
+def menu(request):
+    foods = Food.objects.filter()
+    return render(request, 'menu.html', {'foods':foods})
 
 def signup(request):
     return render(request, 'registration/signup.html')

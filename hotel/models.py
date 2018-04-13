@@ -104,8 +104,18 @@ class Food(models.Model):
         (continental,continental),
     )
 
+    disabled = 'Disabled'
+    enabled = 'Enabled'
+
+    STATUS = (
+        (disabled, disabled),
+        (enabled, enabled),
+    )
+
     #food_id
+    name = models.CharField(max_length=250)
     course = models.CharField(max_length = 50, choices = COURSE)
+    status = models.CharField(max_length=50, choices=STATUS)
     content_description = models.TextField()
     base_price = models.FloatField()
     discount = models.DecimalField(default=0, decimal_places=2, max_digits=5)
