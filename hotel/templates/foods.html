@@ -74,7 +74,7 @@
                                                         </div>
                                                         <div class="checkbox">
                                                             <label>
-                                                                <input type="checkbox" name="disabled" {% if food.status=="Disabled" %}checked{% endif %}>Not Available
+                                                                <input type="checkbox" name="disabled" {% ifequal food.status 'Disabled' %}checked{% endifequal %}>Not Available
                                                             </label>
                                                         </div>
                                                         <button type="submit" class="btn btn-default">Submit</button>
