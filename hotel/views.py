@@ -72,3 +72,17 @@ def confirm_delivery(request, orderID):
     order.confirmDelivery()
     order.save()
     return redirect('hotel:orders')
+def edit_food(request, foodID):
+    food = Food.objects.filter(id=foodID)[0]
+    if request.method == "POST":
+        food.base_price = request.POST['base_price']
+        food.discount = request.POST['discount'] 
+        food.sale_price = (100 - float(food.discount))*float(food.base_price)/100
+
+        status = request.POST['disabled']
+        print(status)
+        if status == 'on':
+            food.status = "Disabled"
+            print(food.status)
+        food.save()
+    return redirect('hotel:foods')

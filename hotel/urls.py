@@ -10,4 +10,5 @@ urlpatterns = [
     url(r'^foods/$', views.foods, name='foods'),
     url(r'^confirm_order/(?P<orderID>\d+)/$', views.confirm_order, name='confirm_order'),
     url(r'^confirm_delivery/(?P<orderID>\d+)/$', views.confirm_delivery, name='confirm_delivery'),
+    url(r'^editFood/(?P<foodID>\d+)/$', views.edit_food, name='edit_food'),
 ]

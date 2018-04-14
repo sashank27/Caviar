@@ -124,7 +124,7 @@ class Food(models.Model):
         return self.name
     
     #def calculateSalePrice(self):
-     #   self.sale_price.value_from_object = (100.0 - float(self.discount.value_from_object))/100.0 * float(self.base_price.value_from_object)
+     #   self.sale_price = (100.0 - self.discount)/100.0 * self.base_price
     
 
 class Comment(models.Model):
