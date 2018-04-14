@@ -56,3 +56,7 @@ def users(request):
 def orders(request):
     orders = Order.objects.filter()
     return render(request, 'orders.html', {'orders':orders})
+
+def foods(request):
+    foods = Food.objects.filter()
+    return render(request, 'foods.html', {'foods':foods})

@@ -112,18 +112,20 @@ class Food(models.Model):
         (enabled, enabled),
     )
 
-    #food_id
     name = models.CharField(max_length=250)
     course = models.CharField(max_length = 50, choices = COURSE)
     status = models.CharField(max_length=50, choices=STATUS)
     content_description = models.TextField()
     base_price = models.FloatField()
+    sale_price = models.FloatField(default=base_price)
     discount = models.DecimalField(default=0, decimal_places=2, max_digits=5)
 
     def __str__(self):
         return self.name
     
-    #sale_price = (100.0 - float(discount))/100.0 * float(base_price)
+    #def calculateSalePrice(self):
+     #   self.sale_price.value_from_object = (100.0 - float(self.discount.value_from_object))/100.0 * float(self.base_price.value_from_object)
+    
 
 class Comment(models.Model):
     user = models.ForeignKey(Customer, on_delete=models.CASCADE)
