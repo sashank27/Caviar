@@ -60,3 +60,15 @@ def orders(request):
 def foods(request):
     foods = Food.objects.filter()
     return render(request, 'foods.html', {'foods':foods})
+
+def confirm_order(request, orderID):
+    order = Order.objects.get(id=orderID)
+    order.confirmOrder()
+    order.save()
+    return redirect('hotel:orders')
+
+def confirm_delivery(request, orderID):
+    order = Order.objects.get(id=orderID)
+    order.confirmDelivery()
+    order.save()
+    return redirect('hotel:orders')
