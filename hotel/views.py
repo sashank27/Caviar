@@ -22,7 +22,7 @@ def index(request):
     comments = Comment.objects.count()
     orders = Order.objects.count()
     customers = Customer.objects.count()
-    completed_orders = Order.objects.filter(delivery_status="Completed")
+    completed_orders = Order.objects.filter(payment_status="Completed")
     top_customers = Customer.objects.filter().order_by('-total_sale')
     latest_orders = Order.objects.filter().order_by('-order_timestamp')
     datas = Data.objects.filter()
@@ -65,6 +65,11 @@ def confirm_order(request, orderID):
     order = Order.objects.get(id=orderID)
     order.confirmOrder()
     order.save()
+    customerID = order.customer.id
+    customer = Customer.objects.get(id=customerID)
+    customer.total_sale += order.total_amount
+    customer.orders += 1
+    customer.save()
     return redirect('hotel:orders')
 
 def confirm_delivery(request, orderID):

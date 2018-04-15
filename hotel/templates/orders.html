@@ -53,7 +53,7 @@
                                         <td>{{order.total_amount}}</td>
                                         <td>{{order.payment_method}}</td>
                                         <td>{% if order.payment_status == 'Completed' %}
-                                            <span class="label label-success">Completed</span>
+                                            <span class="label label-success">Paid</span>
                                             {% else %}
                                             <span class="label label-danger">Pending</span>
                                             {% endif %}
@@ -61,13 +61,13 @@
                                         <td>
                                             <a href="/confirm_order/{{order.id}}">
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default" type="button">Click Here</button>
+                                                    <button class="btn btn-primary {%ifequal order.payment_status 'Completed'%}disabled{%endifequal%}" type="button">Paid</button>
                                                 </span>
                                             </a>
                                         </td>
                                         <td>{{order.delivery_timestamp}}</td>
                                         <td>{% if order.delivery_status == 'Completed' %}
-                                            <span class="label label-success">Completed</span>
+                                            <span class="label label-success">Delivered</span>
                                             {% else %}
                                             <span class="label label-danger">Pending</span>
                                             {% endif %}
@@ -75,7 +75,7 @@
                                         <td>
                                             <a href="/confirm_delivery/{{order.id}}">
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-default" type="button">Click Here</button>
+                                                    <button class="btn btn-primary {%ifequal order.delivery_status 'Completed'%}disabled{%endifequal%}" type="button">Delivered</button>
                                                 </span>
                                             </a>
                                         </td>
