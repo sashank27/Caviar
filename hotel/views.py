@@ -99,3 +99,53 @@ def edit_food(request, foodID):
             # print(food.status)
         food.save()
     return redirect('hotel:foods')
+
+def add_user(request):
+    if request.method == "POST":
+        first_name = request.POST['first_name']
+        last_name = request.POST['last_name']
+        address = request.POST['address']
+        contact = request.POST['contact']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_pass = request.POST['confirm_password']
+        username = email.split('@')[0]
+        print(last_name)
+
+        if (first_name == "") or (last_name == "") or (address == "") or (contact == "") or (email == "") or (password == "") or (confirm_pass == ""):
+            customers = Customer.objects.filter()
+            error_msg = "Please enter valid details"
+            return render(request, 'users.html', {'users': customers, 'error_msg': error_msg})
+
+        if password == confirm_pass:
+            user = User.objects.create(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
+            user.save()
+            cust = Customer.objects.create(customer=user, address=address, contact=contact)
+            cust.save()
+            success_msg = "New user successfully created"
+            customers = Customer.objects.filter()
+            return render(request, 'users.html', {'users': customers, 'success_msg': success_msg})
+    return redirect('hotel:users')
+
+def add_food(request):
+    if request.method == "POST":
+        name = request.POST['name']
+        course = request.POST['course']
+        status = request.POST['status']
+        content = request.POST['content']
+        base_price = request.POST['base_price']
+        discount = request.POST['discount']
+        sale_price = (100 - float(discount)) * float(base_price) / 100
+        print(sale_price)
+
+        if (name == "") or (course is None) or (status is None) or (content == "") or (base_price == "") or (discount == ""):
+            foods = Food.objects.filter()
+            error_msg = "Please enter valid details"
+            return render(request, 'foods.html', {'foods': foods, 'error_msg': error_msg})
+
+        food = Food.objects.create(name=name, course=course, status=status, content_description=content, base_price=base_price, discount=discount, sale_price=sale_price)
+        food.save()
+        foods = Food.objects.filter()
+        success_msg = "Please enter valid details"
+        return render(request, 'foods.html', {'foods': foods, 'success_msg': success_msg})
+    return redirect('hotel:foods')
