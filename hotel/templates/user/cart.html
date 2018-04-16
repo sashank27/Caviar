@@ -1,0 +1,63 @@
+{% load staticfiles %}
+
+{% include "../includes/landing_top.html" %}
+
+{% load mathfilters %}
+
+<body>
+	<div  class="bg-img">
+		<!-- banner -->
+		{% include "../includes/banner1.html" %}
+		<!-- //banner -->
+	</div>
+
+
+        <div style="height:100px;"></div>
+		
+		<div class="container text-center">
+
+			<div class="col-md-5 col-sm-12">
+				<div class="bigcart"></div>
+				<h1>Your shopping cart</h1>
+			</div>
+			
+			<div class="col-md-7 col-sm-12 text-left">
+				<ul>
+					<li class="row list-inline columnCaptions">
+						<span>QTY</span>
+						<span>ITEM</span>
+						<span>Price</span>
+					</li>
+                    {% for item in items %}
+					<li class="row">
+						<span class="quantity">{{item.quantity}}</span>
+						<span class="itemName">{{item.food.name}}</span>
+                        <span class="popbtn"><a class="arrow" id="{{item.id}}"></a></span>
+                        <span class="price">Rs {{ item.food.sale_price|mul:item.quantity }}</span>
+                    </li>
+                    {% endfor %}
+                    <li class="row totals">
+						<span class="itemName">Total:</span>
+						<span class="price">Rs {{total}}</span>
+						<span class="order"> <a class="text-center">ORDER</a></span>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+
+		<!-- The popover content -->
+
+		<div id="popover" style="display: none">
+			<a><span class="glyphicon glyphicon-pencil"></span></a>
+			<a id="remove"><span class="glyphicon glyphicon-remove"></span></a>
+		</div>
+		
+		<!-- JavaScript includes -->
+
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> 
+		<script src="{% static 'js/bootstrap.js' %}"></script>
+		<script src="{% static 'assets/js/customjs.js' %}"></script>
+
+	</body>
+</html>

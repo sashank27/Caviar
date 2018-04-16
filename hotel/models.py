@@ -137,5 +137,11 @@ class Data(models.Model):
     expenses = models.IntegerField()
 
 class OrderContent(models.Model):
+    quantity = models.IntegerField(default=1)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
+
+class Cart(models.Model):
+    quantity = models.IntegerField(default=1)
+    food = models.ForeignKey(Food, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

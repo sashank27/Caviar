@@ -513,7 +513,7 @@ i.fa.fa-twitter,i.fa.fa-facebook,i.fa.fa-google-plus,i.fa.fa-dribbble{
 /*-- //copyright --*/
 /*--Shortcodes--*/
 .bg-img{
-    background: url(../images/bg.jpg) no-repeat 0px -429px;
+    background: url(../../images/bg.jpg) no-repeat 0px -429px;
     background-size: cover;
 }
 .code-banner{

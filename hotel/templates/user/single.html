@@ -3,10 +3,9 @@
 {% include "../includes/landing_top.html" %}
 
 <body>
-	<script src="{% static 'js/jquery.vide.min.js' %}"></script>
-	<div data-vide-bg="{% static 'video/cook.mp4' %}">
+	<div  class="bg-img">
 		<!-- banner -->
-		{% include "../includes/banner.html" %}
+		{% include "../includes/banner1.html" %}
 		<!-- //banner -->
 	</div>
 	<!-- single -->
@@ -18,7 +17,7 @@
 							<div class="blog-left">
 								<div class="single-left-left">
 									<p>Posted By <a href="#">Admin</a> &nbsp;&nbsp; on June 2, 2016 &nbsp;&nbsp; <a href="#">Comments (10)</a></p>
-									<img src="images/m4.jpg" alt="">
+									<img src="{% static 'images/m4.jpg' %}" alt="">
 								</div>
 								<div class="blog-left-bottom">
 									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed blandit massa vel mauris sollicitudin 
@@ -38,13 +37,16 @@
 										fringilla hendrerit lectus nec vehicula. ultrices tellus eget ipsum ornare consectetur adipiscing elit.Sed blandit .
 									</p>
 								</div>
+								<a href="{% url 'hotel:addTocart' food.id request.user.id %}">
+									<button class="btn btn-primary">Add to Cart</button>
+								</a>
 							</div>
 							<div class="response">
 								<h3>Responses</h3>
 								<div class="media response-info">
 									<div class="media-left response-text-left">
 										<a href="#">
-											<img class="media-object" src="images/t1.jpg" alt="">
+											<img class="media-object" src="{% static 'images/t1.jpg' %}" alt="">
 										</a>
 										<h5><a href="#">Admin</a></h5>
 									</div>
@@ -58,7 +60,7 @@
 										<div class="media response-info">
 											<div class="media-left response-text-left">
 												<a href="#">
-													<img class="media-object" src="images/t2.jpg" alt="">
+													<img class="media-object" src="{% static 'images/t2.jpg' %}" alt="">
 												</a>
 												<h5><a href="#">Admin</a></h5>
 											</div>
@@ -78,7 +80,7 @@
 								<div class="media response-info">
 									<div class="media-left response-text-left">
 										<a href="#">
-											<img class="media-object" src="images/t3.jpg" alt="">
+											<img class="media-object" src="{% static 'images/t3.jpg' %}" alt="">
 										</a>
 										<h5><a href="#">Admin</a></h5>
 									</div>

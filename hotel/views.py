@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.utils import timezone
 from reportlab.pdfgen import canvas
-from .models import Customer, Comment, Order, Food, Data
+from .models import Customer, Comment, Order, Food, Data, Cart
 from .forms import SignUpForm
 
 @login_required
@@ -208,3 +208,27 @@ def edit_sales(request, saleID):
 
 def landing(request):
     return render(request, 'user/index.html', {})
+
+def food_details(request, foodID):
+    food = Food.objects.get(id=foodID)
+    return render(request, 'user/single.html', {'food':food})
+
+def addTocart(request, foodID, userID):
+    food = Food.objects.get(id=foodID)
+    user = User.objects.get(id=userID)
+    cart = Cart.objects.create(food=food, user=user)
+    cart.save()
+    return redirect('hotel:cart')
+
+def cart(request):
+    user = User.objects.get(id=request.user.id)
+    items = Cart.objects.filter(user=user)
+    total = 0
+    for item in items:
+        total += item.food.sale_price
+    return render(request, 'user/cart.html', {'items': items, 'total':total})
+
+def delete_item(request, ID):
+    item = Cart.objects.get(id=ID)
+    item.delete()
+    return redirect('hotel:cart')
