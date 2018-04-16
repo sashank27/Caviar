@@ -12,12 +12,13 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from reportlab.pdfgen import canvas
 from .models import Customer, Comment, Order, Food, Data
+from .forms import SignUpForm
 
 # Create your views here.
+@login_required
 def index(request):
     comments = Comment.objects.count()
     orders = Order.objects.count()
@@ -46,7 +47,20 @@ def menu(request):
     return render(request, 'menu.html', {'foods':foods})
 
 def signup(request):
-    return render(request, 'registration/signup.html')
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.email = form.cleaned_data['email']
+            user.username = email.split('@')[0]
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('http://localhost:8000/accounts/login/')
+        
+    else:
+        form = SignUpForm()
+        
+    return render(request, 'registration/signup.html', {'form': form})
 
 def users(request):
     customers = Customer.objects.filter()

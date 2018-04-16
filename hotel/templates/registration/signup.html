@@ -1,58 +1,67 @@
-{% load staticfiles %} {% include "includes/base.html" %} {% include "includes/navbarheader.html" %}
+{% load staticfiles %}
 
-</nav>
+<!DOCTYPE html>
+<html lang="en">
 
-<div id="page-wrapper" style="margin: 0 0 0 0px;">
-    <div class="row">
-        <div class="col-lg-12 text-center">
-            <h1 class="page-header">Signup Here</h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-6 col-lg-offset-3">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <div class="row">
-                        <form role="form">
-                            <div class="form-group input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                                <input type="email" class="form-control" placeholder="Email" name="email" required>
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Caviar | Login</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{% static 'vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/sb-admin-2.css'%}" rel="stylesheet">
+
+    <!-- Custom Fonts -->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    {% include "includes/navbarheader.html" %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Please Sign In</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post">
+                            {% csrf_token %} 
+                            {% for error in form.non_field_errors %}
+                            <div class="form-group has-errors text-danger small">
+                                {{error}}
                             </div>
-                            <div class="form-group input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                                <input type="firstname" class="form-control" placeholder="First Name" name="firstname" required>
+                            {% endfor %} 
+                            {% for field in form %}
+                            <div class="form-group has-errors text-danger small">
+                                {{field.errors}}
                             </div>
-                            <div class="form-group input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                                <input type="lastname" class="form-control" placeholder="Last Name" name="lastname" required>
+                            <div class="form-group has-errors text-danger small">
                             </div>
-                            <div class="form-group input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-key"></i>
-                                </span>
-                                <input type="password" class="form-control" placeholder="Password" name="password" required>
+                            <div class="form-group">
+                                {{field}}
                             </div>
-                            <div class="form-group input-group">
-                                <span class="input-group-addon">
-                                    <i class="fa fa-key"></i>
-                                </span>
-                                <input type="verifypassword" class="form-control" placeholder="Verify Password" name="verifypassword" required>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-default">SignUp</button>
-                            </div>
-                            <div class="text-center">
-                                <h5>Don't have a username?
-                                    <a href="/accounts/register">Register Now!</a>
-                                </h5>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-lg btn-success btn-block">Signup</button>
+                            </fieldset>
+                            <br>
+                            <div class="form-group text-center">
+                                <h5> Already have an account!
+                                <a href="/accounts/login">Login</a> instead</h5>
                             </div>
                         </form>
                     </div>
@@ -60,6 +69,19 @@
             </div>
         </div>
     </div>
-</div>
-</div>
-{" include "includes/scripts.html" %}
+
+    <!-- jQuery -->
+    <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+
+    <!-- Metis Menu Plugin JavaScript -->
+    <script src="{% static 'vendor/metisMenu/metisMenu.min.js'%}"></script>
+
+    <!-- Custom Theme JavaScript -->
+    <script src="{% static 'dist/js/sb-admin-2.js'%}"></script>
+
+</body>
+
+</html>
