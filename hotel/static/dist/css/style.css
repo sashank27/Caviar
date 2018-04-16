@@ -262,7 +262,7 @@ div#bs-example-navbar-collapse-1 {
     margin: 3em 0 0 0;
 }
 .features-left-info{
-	background: url(../images/f1.jpg) no-repeat 0px 0px;
+	background: url(../../images/f1.jpg) no-repeat 0px 0px;
     background-size: cover;
     min-height: 450px;
 }
