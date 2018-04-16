@@ -17,144 +17,19 @@
 			</div>
 			<div class="menu-top-grids">
 				<div class="w3ls-menu-grids">
+					{% for food in foods %}
 					<div class="col-md-3 menu-grid">
 						<div class="agile-menu-grid">
 							<a href="single.html">
-								<img src="images/m1.jpg" alt="" />
+								<img src="{% static 'images/m1.jpg' %}" alt="" />
 								<div class="agileits-caption">
-									<h4>Consectetur</h4>
-									<p>$10</p>
+									<h4>{{food.name}}</h4>
+									<p><i class="fa fa-inr"></i> {{food.sale_price}}</p>
 								</div>
 							</a>
 						</div>
 					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m2.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Suspendisse</h4>
-									<p>$15</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m3.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Phasellus</h4>
-									<p>$18</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m4.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Mauris </h4>
-									<p>$21</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="w3ls-menu-grids agileinfo">
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m5.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Consectetur</h4>
-									<p>$10</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m6.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Suspendisse</h4>
-									<p>$15</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m1.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Phasellus</h4>
-									<p>$18</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m2.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Mauris </h4>
-									<p>$21</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="w3ls-menu-grids wthree-menu-grids">
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m3.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Consectetur</h4>
-									<p>$10</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m4.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Suspendisse</h4>
-									<p>$15</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m5.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Phasellus</h4>
-									<p>$18</p>
-								</div>
-							</a>
-						</div>
-					</div>
-					<div class="col-md-3 menu-grid">
-						<div class="agile-menu-grid">
-							<a href="single.html">
-								<img src="images/m6.jpg" alt="" />
-								<div class="agileits-caption">
-									<h4>Mauris </h4>
-									<p>$21</p>
-								</div>
-							</a>
-						</div>
-					</div>
+					{% endfor %}
 					<div class="clearfix"> </div>
 				</div>
 			</div>

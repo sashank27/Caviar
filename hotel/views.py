@@ -42,9 +42,13 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
-def menu(request):
+def adminmenu(request):
     foods = Food.objects.filter()
     return render(request, 'menu.html', {'foods':foods})
+
+def menu(request):
+    foods = Food.objects.filter(status="Enabled")
+    return render(request, 'user/menu.html', {'foods':foods})
 
 def signup(request):
     if request.method == "POST":
