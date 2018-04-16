@@ -17,7 +17,6 @@ from reportlab.pdfgen import canvas
 from .models import Customer, Comment, Order, Food, Data
 from .forms import SignUpForm
 
-# Create your views here.
 @login_required
 def index(request):
     comments = Comment.objects.count()
@@ -26,7 +25,7 @@ def index(request):
     completed_orders = Order.objects.filter(payment_status="Completed")
     top_customers = Customer.objects.filter().order_by('-total_sale')
     latest_orders = Order.objects.filter().order_by('-order_timestamp')
-    datas = Data.objects.filter()
+    datas = Data.objects.filter().order_by('date')
     sales = 0
     for order in completed_orders:
         sales += order.total_amount
@@ -82,6 +81,10 @@ def foods(request):
     foods = Food.objects.filter()
     return render(request, 'foods.html', {'foods':foods})
 
+def sales(request):
+    sales = Data.objects.filter()
+    return render(request, 'sales.html', {'sales':sales})
+
 def confirm_order(request, orderID):
     order = Order.objects.get(id=orderID)
     order.confirmOrder()
@@ -98,6 +101,7 @@ def confirm_delivery(request, orderID):
     order.confirmDelivery()
     order.save()
     return redirect('hotel:orders')
+
 def edit_food(request, foodID):
     food = Food.objects.filter(id=foodID)[0]
     if request.method == "POST":
@@ -170,6 +174,37 @@ def add_food(request):
         success_msg = "Please enter valid details"
         return render(request, 'foods.html', {'foods': foods, 'success_msg': success_msg})
     return redirect('hotel:foods')
+
+def add_sales(request):
+    if request.method == "POST":
+        date = request.POST['date']
+        sales = request.POST['sales']
+        expenses = request.POST['expenses']
+        
+        if (date is None) or (sales == "") or (expenses == ""):
+            sales = Data.objects.filter()
+            error_msg = "Please enter valid details"
+            return render(request, 'sales.html', {'sales': sales, 'error_msg': error_msg})
+
+        data = Data.objects.create(date=date, sales=sales, expenses=expenses)
+        data.save()
+        datas = Data.objects.filter()
+        success_msg = "Sales data added successfully!"
+        return render(request, 'sales.html', {'sales': datas, 'success_msg': success_msg})
+    return redirect('hotel:foods')
+
+def edit_sales(request, saleID):
+    data = Data.objects.filter(id=saleID)[0]
+    if request.method == "POST":
+        if request.POST['sales'] != "":
+            data.sales = request.POST['sales']
+        
+        if request.POST['expenses'] != "":
+            data.expenses = request.POST['expenses'] 
+        
+        data.save()
+    return redirect('hotel:sales')
+
 
 def landing(request):
     return render(request, 'user/index.html', {})
