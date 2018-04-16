@@ -52,7 +52,10 @@ def signup(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.email = form.cleaned_data['email']
-            user.username = email.split('@')[0]
+            user.first_name = form.cleaned_data['firstname']
+            user.last_name = form.cleaned_data['lastname']
+            user.email = form.cleaned_data['email']
+            user.username = user.email.split('@')[0]
             user.set_password(form.cleaned_data['password'])
             user.save()
             return redirect('http://localhost:8000/accounts/login/')
