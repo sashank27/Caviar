@@ -163,3 +163,6 @@ def add_food(request):
         success_msg = "Please enter valid details"
         return render(request, 'foods.html', {'foods': foods, 'success_msg': success_msg})
     return redirect('hotel:foods')
+
+def landing(request):
+    return render(request, 'user/index.html', {})

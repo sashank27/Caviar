@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^orders/$', views.orders, name='orders'),
     url(r'^menu/$', views.menu, name='menu'),
     url(r'^foods/$', views.foods, name='foods'),
+    url(r'^landing/$', views.landing, name='landing'),
     url(r'^add_user/$', views.add_user, name='add_user'),
     url(r'^add_food/$', views.add_food, name='add_food'),
     url(r'^confirm_order/(?P<orderID>\d+)/$', views.confirm_order, name='confirm_order'),
