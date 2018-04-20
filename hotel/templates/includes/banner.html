@@ -13,9 +13,13 @@
 							<!-- Collect the nav links, forms, and other content for toggling -->
 							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 								<ul class="nav navbar-nav">
-									<li><a class="active" href="index.html">Home</a></li>
-									<li><a href="menu.html">Menu</a></li>
-									<li><a href="contact.html">Contact</a></li>
+									<li><a class="active" href="{% url 'hotel:index' %}">Home</a></li>
+									<li><a href="{% url 'hotel:menu' %}">Menu</a></li>
+									{% if user.is_authenticated %}
+									<li><a href="{% url 'hotel:dashboard_admin' %}">Dashboard</a></li>
+									{% else %}
+									<li><a href="/accounts/login/">Login</a></li>
+									{% endif %}
 									<div class="clearfix"> </div>
 								</ul>
 							</div>

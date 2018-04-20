@@ -11,6 +11,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.utils import timezone
 from reportlab.pdfgen import canvas
@@ -37,6 +38,7 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form})
 
 @login_required
+@staff_member_required
 def dashboard_admin(request):
     comments = Comment.objects.count()
     orders = Order.objects.count()
@@ -60,19 +62,26 @@ def dashboard_admin(request):
     }
     return render(request, 'admin_temp/index.html', context)
 
+@login_required
+@staff_member_required
 def users_admin(request):
-    customers = CustID	omer.objects.filter()
-    print(customers)
+    customers = Customer.objects.filter()
     return render(request, 'admin_temp/users.html', {'users':customers})
 
+@login_required
+@staff_member_required
 def orders_admin(request):
     orders = Order.objects.filter()
     return render(request, 'admin_temp/orders.html', {'orders':orders})
 
+@login_required
+@staff_member_required
 def foods_admin(request):
     foods = Food.objects.filter()
     return render(request, 'admin_temp/foods.html', {'foods':foods})
 
+@login_required
+@staff_member_required
 def sales_admin(request):
     sales = Data.objects.filter()
     return render(request, 'admin_temp/sales.html', {'sales':sales})
@@ -86,6 +95,8 @@ def index(request):
     return render(request, 'index.html', {})
 
 
+@login_required
+@staff_member_required
 def confirm_order(request, orderID):
     order = Order.objects.get(id=orderID)
     order.confirmOrder()
@@ -97,12 +108,16 @@ def confirm_order(request, orderID):
     customer.save()
     return redirect('hotel:orders_admin')
 
+@login_required
+@staff_member_required
 def confirm_delivery(request, orderID):
     order = Order.objects.get(id=orderID)
     order.confirmDelivery()
     order.save()
     return redirect('hotel:orders_admin')
 
+@login_required
+@staff_member_required
 def edit_food(request, foodID):
     food = Food.objects.filter(id=foodID)[0]
     if request.method == "POST":
@@ -124,6 +139,8 @@ def edit_food(request, foodID):
         food.save()
     return redirect('hotel:foods_admin')
 
+@login_required
+@staff_member_required
 def add_user(request):
     if request.method == "POST":
         first_name = request.POST['first_name']
@@ -151,6 +168,8 @@ def add_user(request):
 
     return redirect('hotel:users_admin')
 
+@login_required
+@staff_member_required
 def add_food(request):
     if request.method == "POST":
         name = request.POST['name']
@@ -177,6 +196,8 @@ def add_food(request):
         return render(request, 'admin_temp/foods.html', {'foods': foods, 'success_msg': success_msg})
     return redirect('hotel:foods_admin')
 
+@login_required
+@staff_member_required
 def add_sales(request):
     if request.method == "POST":
         date = request.POST['date']
