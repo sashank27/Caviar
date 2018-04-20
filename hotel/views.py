@@ -17,8 +17,27 @@ from reportlab.pdfgen import canvas
 from .models import Customer, Comment, Order, Food, Data, Cart
 from .forms import SignUpForm
 
+def signup(request):
+    if request.method == "POST":
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.email = form.cleaned_data['email']
+            user.first_name = form.cleaned_data['firstname']
+            user.last_name = form.cleaned_data['lastname']
+            user.email = form.cleaned_data['email']
+            user.username = user.email.split('@')[0]
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('http://localhost:8000/accounts/login/')
+        
+    else:
+        form = SignUpForm()
+        
+    return render(request, 'registration/signup.html', {'form': form})
+
 @login_required
-def index(request):
+def dashboard_admin(request):
     comments = Comment.objects.count()
     orders = Order.objects.count()
     customers = Customer.objects.count()
@@ -39,51 +58,33 @@ def index(request):
         'latest_orders':latest_orders,
         'datas':datas,
     }
-    return render(request, 'index.html', context)
+    return render(request, 'admin_temp/index.html', context)
 
-def adminmenu(request):
+def users_admin(request):
+    customers = CustID	omer.objects.filter()
+    print(customers)
+    return render(request, 'admin_temp/users.html', {'users':customers})
+
+def orders_admin(request):
+    orders = Order.objects.filter()
+    return render(request, 'admin_temp/orders.html', {'orders':orders})
+
+def foods_admin(request):
     foods = Food.objects.filter()
-    return render(request, 'menu.html', {'foods':foods})
+    return render(request, 'admin_temp/foods.html', {'foods':foods})
+
+def sales_admin(request):
+    sales = Data.objects.filter()
+    return render(request, 'admin_temp/sales.html', {'sales':sales})
 
 def menu(request):
     foods = Food.objects.filter(status="Enabled")
-    return render(request, 'user/menu.html', {'foods':foods})
+    return render(request, 'menu.html', {'foods':foods})
 
-def signup(request):
-    if request.method == "POST":
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.email = form.cleaned_data['email']
-            user.first_name = form.cleaned_data['firstname']
-            user.last_name = form.cleaned_data['lastname']
-            user.email = form.cleaned_data['email']
-            user.username = user.email.split('@')[0]
-            user.set_password(form.cleaned_data['password'])
-            user.save()
-            return redirect('http://localhost:8000/accounts/login/')
-        
-    else:
-        form = SignUpForm()
-        
-    return render(request, 'registration/signup.html', {'form': form})
 
-def users(request):
-    customers = Customer.objects.filter()
-    print(customers)
-    return render(request, 'users.html', {'users':customers})
+def index(request):
+    return render(request, 'index.html', {})
 
-def orders(request):
-    orders = Order.objects.filter()
-    return render(request, 'orders.html', {'orders':orders})
-
-def foods(request):
-    foods = Food.objects.filter()
-    return render(request, 'foods.html', {'foods':foods})
-
-def sales(request):
-    sales = Data.objects.filter()
-    return render(request, 'sales.html', {'sales':sales})
 
 def confirm_order(request, orderID):
     order = Order.objects.get(id=orderID)
@@ -94,13 +95,13 @@ def confirm_order(request, orderID):
     customer.total_sale += order.total_amount
     customer.orders += 1
     customer.save()
-    return redirect('hotel:orders')
+    return redirect('hotel:orders_admin')
 
 def confirm_delivery(request, orderID):
     order = Order.objects.get(id=orderID)
     order.confirmDelivery()
     order.save()
-    return redirect('hotel:orders')
+    return redirect('hotel:orders_admin')
 
 def edit_food(request, foodID):
     food = Food.objects.filter(id=foodID)[0]
@@ -111,8 +112,6 @@ def edit_food(request, foodID):
         if request.POST['discount'] != "":
             food.discount = request.POST['discount'] 
         
-        # print(request.POST['base_price'])
-
         food.sale_price = (100 - float(food.discount))*float(food.base_price)/100
 
         status = request.POST.get('disabled')
@@ -121,9 +120,9 @@ def edit_food(request, foodID):
             food.status = "Disabled"
         else:
             food.status = "Enabled"
-            # print(food.status)
+        
         food.save()
-    return redirect('hotel:foods')
+    return redirect('hotel:foods_admin')
 
 def add_user(request):
     if request.method == "POST":
@@ -135,12 +134,11 @@ def add_user(request):
         password = request.POST['password']
         confirm_pass = request.POST['confirm_password']
         username = email.split('@')[0]
-        print(last_name)
-
+        
         if (first_name == "") or (last_name == "") or (address == "") or (contact == "") or (email == "") or (password == "") or (confirm_pass == ""):
             customers = Customer.objects.filter()
             error_msg = "Please enter valid details"
-            return render(request, 'users.html', {'users': customers, 'error_msg': error_msg})
+            return render(request, 'admin_temp/users.html', {'users': customers, 'error_msg': error_msg})
 
         if password == confirm_pass:
             user = User.objects.create(username=username, email=email, password=password, first_name=first_name, last_name=last_name)
@@ -149,8 +147,9 @@ def add_user(request):
             cust.save()
             success_msg = "New user successfully created"
             customers = Customer.objects.filter()
-            return render(request, 'users.html', {'users': customers, 'success_msg': success_msg})
-    return redirect('hotel:users')
+            return render(request, 'admin_temp/users.html', {'users': customers, 'success_msg': success_msg})
+
+    return redirect('hotel:users_admin')
 
 def add_food(request):
     if request.method == "POST":
@@ -170,14 +169,14 @@ def add_food(request):
         if (name == "") or (course is None) or (status is None) or (content == "") or (base_price == "") or (discount == ""):
             foods = Food.objects.filter()
             error_msg = "Please enter valid details"
-            return render(request, 'foods.html', {'foods': foods, 'error_msg': error_msg})
+            return render(request, 'admin_temp/foods.html', {'foods': foods, 'error_msg': error_msg})
 
         food = Food.objects.create(name=name, course=course, status=status, content_description=content, base_price=base_price, discount=discount, sale_price=sale_price, image=uploaded_file_url)
         food.save()
         foods = Food.objects.filter()
         success_msg = "Please enter valid details"
-        return render(request, 'foods.html', {'foods': foods, 'success_msg': success_msg})
-    return redirect('hotel:foods')
+        return render(request, 'admin_temp/foods.html', {'foods': foods, 'success_msg': success_msg})
+    return redirect('hotel:foods_admin')
 
 def add_sales(request):
     if request.method == "POST":
@@ -188,14 +187,15 @@ def add_sales(request):
         if (date is None) or (sales == "") or (expenses == ""):
             sales = Data.objects.filter()
             error_msg = "Please enter valid details"
-            return render(request, 'sales.html', {'sales': sales, 'error_msg': error_msg})
+            return render(request, 'admin_temp/sales.html', {'sales': sales, 'error_msg': error_msg})
 
         data = Data.objects.create(date=date, sales=sales, expenses=expenses)
         data.save()
         datas = Data.objects.filter()
         success_msg = "Sales data added successfully!"
-        return render(request, 'sales.html', {'sales': datas, 'success_msg': success_msg})
-    return redirect('hotel:foods')
+        return render(request, 'admin_temp/sales.html', {'sales': datas, 'success_msg': success_msg})
+
+    return redirect('hotel:foods_admin')
 
 def edit_sales(request, saleID):
     data = Data.objects.filter(id=saleID)[0]
@@ -207,11 +207,7 @@ def edit_sales(request, saleID):
             data.expenses = request.POST['expenses'] 
         
         data.save()
-    return redirect('hotel:sales')
-
-
-def landing(request):
-    return render(request, 'user/index.html', {})
+    return redirect('hotel:sales_admin')
 
 def food_details(request, foodID):
     food = Food.objects.get(id=foodID)
@@ -224,15 +220,15 @@ def addTocart(request, foodID, userID):
     cart.save()
     return redirect('hotel:cart')
 
+def delete_item(request, ID):
+    item = Cart.objects.get(id=ID)
+    item.delete()
+    return redirect('hotel:cart')
+
 def cart(request):
     user = User.objects.get(id=request.user.id)
     items = Cart.objects.filter(user=user)
     total = 0
     for item in items:
         total += item.food.sale_price
-    return render(request, 'user/cart.html', {'items': items, 'total':total})
-
-def delete_item(request, ID):
-    item = Cart.objects.get(id=ID)
-    item.delete()
-    return redirect('hotel:cart')
+    return render(request, 'cart.html', {'items': items, 'total':total})

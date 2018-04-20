@@ -1,203 +1,238 @@
 {% load staticfiles %}
-{% include "includes/base.html" %}
-{% include "includes/navbarheader.html" %}
-{% include "includes/navtop.html" %}
-{% include "includes/sidemenu.html" %}
 
-</nav>
-<div id="page-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <h1 class="page-header">Dashboard</h1>
-        </div>
-        <!-- /.col-lg-12 -->
-    </div>
-    <!-- /.row -->
-    <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{comments}}</div>
-                            <div>Total Comments!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right">
-                            <i class="fa fa-arrow-circle-right"></i>
-                        </span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-green">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-tasks fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{customers}}</div>
-                            <div>Total Customers!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="{% url 'hotel:users' %}">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right">
-                            <i class="fa fa-arrow-circle-right"></i>
-                        </span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-yellow">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-shopping-cart fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{orders}}</div>
-                            <div>Total Orders!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="{% url 'hotel:orders' %}">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right">
-                            <i class="fa fa-arrow-circle-right"></i>
-                        </span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-red">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-support fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">{{sales}}</div>
-                            <div>Total Sales!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="{% url 'hotel:sales' %}">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right">
-                            <i class="fa fa-arrow-circle-right"></i>
-                        </span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Top Customers
-                        </div>
-                        <!-- /.panel-heading -->
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Customer Name</th>
-                              <th scope="col">#Orders</th>
-                              <th scope="col">Total Sale</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for customer in top_customers %}
-                            <tr>
-                              <td>{{customer.customer.first_name}} {{customer.customer.last_name}}</td>
-                              <td>{{customer.orders}}</td>
-                              <td>{{customer.total_sale}}</td>
-                            </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>
-                        <!-- /.panel-body -->
-                    </div>
+{% include "includes/landing_top.html" %}
 
-                    <!-- /.panel .chat-panel -->
-                </div>
-                <!-- /.col-lg-4 -->
-                <div class="col-lg-8">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Latest Orders
-                        </div>
-                        <!-- /.panel-heading -->
-                        <table class="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">ID</th>
-                              <th scope="col">Location</th>
-                              <th scope="col">Customer Name</th>
-                              <th scope="col">Type</th>
-                              <th scope="col">Order Timestamp</th>
-                              <th scope="col">Total Amount</th>
-                              <th scope="col">Satus</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {% for order in latest_orders %}
-                            <tr>
-                              <td>{{order.id}}</td>
-                              <td>{{order.location}}</td>
-                              <td>{{order.customer.customer.first_name}} {{order.customer.customer.last_name}}</td>
-                              <td>Delivery</td>
-                              <td>{{order.order_timestamp}}</td>
-                              <td>{{order.total_amount}}</td>
-                              <td>
-                                  {% if order.delivery_status == "Completed" %}
-                                    <span class="label label-success">Delivered</span>
-                                  {% elif order.delivery_status == "Processing" %}
-                                    <span class="label label-warning">Processing</span>
-                                  {% else %}
-                                    <span class="label label-danger">Pending</span>
-                                  {% endif %}
-                              </td>
-                            </tr>
-                            {% endfor %}
-                          </tbody>
-                        </table>
-                        <!-- /.panel-body -->
-                    </div>
-                </div>
-            </div>
-
-            <div id="chart_div" style="width: 100%; height: 500px;"></div>
-            <!-- /.row -->
-        </div>
-        <!-- /.col-lg-4 -->
-    </div>
-    <!-- /.row -->
-</div>
-<!-- /#page-wrapper -->
-
-</div>
-<!-- /#wrapper -->
-
-{% include "includes/scripts.html" %}
+<body>
+	<script src="{% static 'js/jquery.vide.min.js' %}"></script>
+	<div data-vide-bg="{% static 'video/cook.mp4' %}">
+		<!-- banner -->
+		{% include "includes/banner.html" %}
+		<!-- //banner -->
+	</div>
+	<!-- special -->
+	<div class="special">
+		<div class="container">
+			<div class="special-heading">
+				<h3>Today Specials</h3>
+			</div>
+			<div class="special-grids">
+				<div class="col-md-4 w3l-special-grid">
+					<div class="col-md-6 w3ls-special-img">
+						<div class="w3ls-special-text effect-1">
+							<h4>Aliquam</h4>
+						</div>
+					</div>
+					<div class="col-md-6 agileits-special-info">
+						<h4>Aliquam</h4>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-4 w3l-special-grid">
+					<div class="col-md-6 w3ls-special-img wthree-img">
+						<div class="w3ls-special-text effect-1">
+							<h4>Nullam</h4>
+						</div>
+					</div>
+					<div class="col-md-6 agileits-special-info">
+						<h4>Nullam</h4>
+						<p>Maecenas ac hendrerit purus. Lorem ipsum dolor sit amet</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-4 w3l-special-grid">
+					<div class="col-md-6 w3ls-special-img wthree-img1">
+						<div class="w3ls-special-text effect-1">
+							<h4>Maecenas</h4>
+						</div>
+					</div>
+					<div class="col-md-6 agileits-special-info">
+						<h4>Maecenas</h4>
+						<p>Donec nibh enim, cursus sodales laoreet sit amet, tincidunt</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-4 w3l-special-grid">
+					<div class="col-md-6 agileits-special-info">
+						<h4>Aliquam</h4>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+					</div>
+					<div class="col-md-6 w3ls-special-img wthree-img2">
+						<div class="w3ls-special-text effect-1">
+							<h4>Aliquam</h4>
+						</div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-4 w3l-special-grid">
+					<div class="col-md-6 agileits-special-info">
+						<h4>Nullam</h4>
+						<p>Maecenas ac hendrerit purus. Lorem ipsum dolor sit amet</p>
+					</div>
+					<div class="col-md-6 w3ls-special-img wthree-img3">
+						<div class="w3ls-special-text effect-1">
+							<h4>Nullam</h4>
+						</div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="col-md-4 w3l-special-grid">
+					<div class="col-md-6 agileits-special-info">
+						<h4>Maecenas</h4>
+						<p>Donec nibh enim, cursus sodales laoreet sit amet, tincidunt</p>
+					</div>
+					<div class="col-md-6 w3ls-special-img wthree-img4">
+						<div class="w3ls-special-text effect-1">
+							<h4>Maecenas</h4>
+						</div>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<!-- //special -->
+	<!-- features -->
+	<div class="features">
+		<div class="container">
+			<div class="features-heading">
+				<h3>Our Features</h3>
+			</div>
+			<div class="features-grids">
+				<div class="col-md-4 features-left">
+					<div class="features-left-info">
+					</div>
+				</div>
+				<div class="col-md-8 features-right">
+					<div class="features-right-info">
+						<h4>Quisque scelerisque mollis lacus, nec commodo lacus posuere quis. Aliquam erat volutpat. Sed laoreet, felis vitae viverra aliquet, magna nulla tincidunt odio, at laoreet nisi nisl sit amet risus. Suspendisse ullamcorper tempus eros, eget aliquam eros tincidunt in.</h3>
+					</div>
+					<div class="features-right-grids">
+						<div class="features-right-left">
+							<div class="features-right-icon effect-2">
+								<i class="fa fa-users" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="features-right-right">
+							<p>Nulla auctor vel ex a suscipit. Integer scelerisque nec dui et ullamcorper. Aenean vitae urna non est luctus venenatis. </p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="features-right-grids">
+						<div class="features-right-left">
+							<div class="features-right-icon effect-2">
+								<i class="fa fa-asterisk" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="features-right-right">
+							<p>Nulla auctor vel ex a suscipit. Integer scelerisque nec dui et ullamcorper. Aenean vitae urna non est luctus venenatis. </p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="features-right-grids">
+						<div class="features-right-left">
+							<div class="features-right-icon effect-2">
+								<i class="fa fa-money" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="features-right-right">
+							<p>Nulla auctor vel ex a suscipit. Integer scelerisque nec dui et ullamcorper. Aenean vitae urna non est luctus venenatis. </p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+					<div class="features-right-grids">
+						<div class="features-right-left">
+							<div class="features-right-icon effect-2">
+								<i class="fa fa-cog" aria-hidden="true"></i>
+							</div>
+						</div>
+						<div class="features-right-right">
+							<p>Nulla auctor vel ex a suscipit. Integer scelerisque nec dui et ullamcorper. Aenean vitae urna non est luctus venenatis. </p>
+						</div>
+						<div class="clearfix"> </div>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<!-- //features -->
+	<!-- customer -->
+	<div class="customer">
+		<div class="container">
+			<div class="customer-heading">
+				<h3>What Our Customers are Saying</h3>
+			</div>
+			<div class="customer-heading-grids">
+				<div class="col-md-4 customer-grid">
+					<div class="customer-info">
+						<p>Etiam euismod leo in felis imperdiet, non interdum diam egestas. Aliquam non ex eget lorem vulputate auctor. Etiam sit amet nibh non tortor posuere mollis non vel velit. Praesent porttitor elit nec dapibus bibendum.</p>
+					</div>
+					<div class="customer-img">
+						<img src="{% static 'images/c1.jpg' %}" alt="" />
+						<h5>Dapibus</h5>
+					</div>
+				</div>
+				<div class="col-md-4 customer-grid">
+					<div class="customer-info">
+						<p>Etiam euismod leo in felis imperdiet, non interdum diam egestas. Aliquam non ex eget lorem vulputate auctor. Etiam sit amet nibh non tortor posuere mollis non vel velit. Praesent porttitor elit nec dapibus bibendum.</p>
+					</div>
+					<div class="customer-img">
+						<img src="{% static 'images/c2.jpg' %}" alt="" />
+						<h5>Vulputate</h5>
+					</div>
+				</div>
+				<div class="col-md-4 customer-grid">
+					<div class="customer-info">
+						<p>Etiam euismod leo in felis imperdiet, non interdum diam egestas. Aliquam non ex eget lorem vulputate auctor. Etiam sit amet nibh non tortor posuere mollis non vel velit. Praesent porttitor elit nec dapibus bibendum.</p>
+					</div>
+					<div class="customer-img">
+						<img src="{% static 'images/c3.jpg' %}" alt="" />
+						<h5>Interdum</h5>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<!-- //customer -->
+	<!-- footer -->
+	<div class="footer">
+		<div class="container">
+			<div class="footer-grids">
+				<div class="footer-heading">
+					<h3>Get in touch with us</h3>
+				</div>
+				<div class="footer-icons">
+					<ul>
+						<li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a><span>Twitter</span></li>
+						<li><a href="#" class="twitter facebook"><i class="fa fa-facebook"></i></a><span>Facebook</span></li>
+						<li><a href="#" class="twitter chrome"><i class="fa fa-google-plus"></i></a><span>Google +</span></li>
+						<li><a href="#" class="twitter dribbble"><i class="fa fa-dribbble" aria-hidden="true"></i></a><span>Dribbble</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- //footer -->
+	<!-- copyright -->
+	<div class="copyright">
+		<div class="container">
+			<div class="w3agile-list">
+				<ul>
+					<li><a href="about.html">About</a></li>
+					<li><a href="menu.html">Menu</a></li>
+					<li><a href="codes.html">Codes</a></li>
+					<li><a href="news.html">News & Events</a></li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+			<div class="agileinfo">
+				<p>© 2016 Tasty . All Rights Reserved . Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+			</div>
+		</div>
+	</div>
+	<!-- //copyright -->
+</body>	
+</html>

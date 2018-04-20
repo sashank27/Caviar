@@ -1,4 +1,8 @@
-{% load staticfiles %} {% load static %} {% include "includes/base.html" %} {% include "includes/navbarheader.html" %} {% include "includes/navtop.html"%}
+{% load staticfiles %} 
+{% load static %} 
+{% include "includes/base.html" %} 
+{% include "includes/navbarheader.html" %} 
+{% include "includes/navtop.html"%}
 {% include "includes/sidemenu.html" %}
 
 </nav>
@@ -52,11 +56,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="base_price">Base Price:</label>
-                                    <input type="number" class="form-control" id="base_price" name="base_price">
+                                    <input type="number" class="form-control" id="base_price" name="base_price" value=0>
                                 </div>
                                 <div class="form-group">
                                     <label for="discount">Discount(%):</label>
-                                    <input type="number" class="form-control" id="discount" name="discount">
+                                    <input type="number" class="form-control" id="discount" name="discount" value=0>
                                 </div>
                                 <div class="form-group">
                                     <label for="image">Image:</label>
