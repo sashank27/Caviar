@@ -95,13 +95,17 @@ class Order(models.Model):
 
 class Food(models.Model):
     indian = 'Indian'
-    chinese = 'Chinese'
-    continental = 'Continental'
+    south = 'South Indian'
+    gujarati = 'Gujarati'
+    punjabi = 'Punjabi'
+    fast = 'Fast Food'
     
     COURSE = (
         (indian,indian),
-        (chinese,chinese),
-        (continental,continental),
+        (south,south),
+        (gujarati,gujarati),
+        (punjabi,punjabi),
+        (fast,fast),
     )
 
     disabled = 'Disabled'
@@ -119,6 +123,7 @@ class Food(models.Model):
     base_price = models.FloatField()
     sale_price = models.FloatField(default=base_price)
     discount = models.DecimalField(default=0, decimal_places=2, max_digits=5)
+    image = models.FileField(blank=True, null =True)
 
     def __str__(self):
         return self.name

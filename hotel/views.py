@@ -161,14 +161,18 @@ def add_food(request):
         base_price = request.POST['base_price']
         discount = request.POST['discount']
         sale_price = (100 - float(discount)) * float(base_price) / 100
-        print(sale_price)
+        image = request.FILES['image']
+        fs = FileSystemStorage()
+        filename = fs.save(image.name, image)
+        uploaded_file_url = fs.url(filename)
+        # print(sale_price)
 
         if (name == "") or (course is None) or (status is None) or (content == "") or (base_price == "") or (discount == ""):
             foods = Food.objects.filter()
             error_msg = "Please enter valid details"
             return render(request, 'foods.html', {'foods': foods, 'error_msg': error_msg})
 
-        food = Food.objects.create(name=name, course=course, status=status, content_description=content, base_price=base_price, discount=discount, sale_price=sale_price)
+        food = Food.objects.create(name=name, course=course, status=status, content_description=content, base_price=base_price, discount=discount, sale_price=sale_price, image=uploaded_file_url)
         food.save()
         foods = Food.objects.filter()
         success_msg = "Please enter valid details"

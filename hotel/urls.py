@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^sales/$', views.sales, name='sales'),
     url(r'^foodDetails/(?P<foodID>\d+)/$', views.food_details, name='food_details'),
     
-    url(r'^add_user/(?P<ID>\d+)/$', views.add_user, name='add_user'),
+    url(r'^add_user/$', views.add_user, name='add_user'),
     url(r'^delete_item/(?P<ID>\d+)/$', views.delete_item, name='delete_item'),
     url(r'^addTocart/(?P<foodID>\d+)/(?P<userID>\d+)/$', views.addTocart, name='addTocart'),
     url(r'^add_food/$', views.add_food, name='add_food'),

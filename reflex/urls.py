@@ -30,3 +30,6 @@ urlpatterns = [
     url(r'^accounts/signup/$', views.signup, name='signup'),
     url(r'', include(('hotel.urls', 'hotel'), namespace='hotel')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
