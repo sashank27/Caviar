@@ -32,8 +32,6 @@ class Staff(models.Model):
     )
     
     staff_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    first_name = User.first_name
-    last_name = User.last_name
     address = models.TextField()
     contact = models.CharField(max_length = 10)
     email = User.email
@@ -41,7 +39,7 @@ class Staff(models.Model):
     role = models.CharField(max_length = 30, choices = ROLES)
     
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return self.staff_id.first_name + " " + self.staff_id.last_name
 
 class Order(models.Model):
     pending = 'Pending'
@@ -151,3 +149,7 @@ class Cart(models.Model):
     quantity = models.IntegerField(default=1)
     food = models.ForeignKey(Food, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+class DeliveryBoy(models.Model):
+    order= models.ForeignKey(Order, on_delete=models.CASCADE)
+    delivery_boy = models.ForeignKey(Staff, on_delete=models.CASCADE)

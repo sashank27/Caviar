@@ -15,7 +15,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.utils import timezone
 from reportlab.pdfgen import canvas
-from .models import Customer, Comment, Order, Food, Data, Cart, OrderContent
+from .models import Customer, Comment, Order, Food, Data, Cart, OrderContent, Staff
 from .forms import SignUpForm
 
 def signup(request):
@@ -194,7 +194,6 @@ def add_food(request):
         image = request.FILES['image']
         fs = FileSystemStorage()
         filename = fs.save(image.name, image)
-        # print(sale_price)
 
         if (name == "") or (course is None) or (status is None) or (content == "") or (base_price == "") or (discount == ""):
             foods = Food.objects.filter()
@@ -286,3 +285,12 @@ def placeOrder(request):
         orderContent.save()
         item.delete()
     return redirect('hotel:cart')
+
+@login_required
+def delivery_boy(request):
+    user = User.objects.get(id=request.user.id)
+    staff = Staff.objects.get(staff_id=user)
+    if staff is None or staff.role != 'Delivery Boy':
+        return redirect('hotel:index')
+    else:
+        return render(request, 'delivery_boy.html')

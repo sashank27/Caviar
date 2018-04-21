@@ -25,4 +25,6 @@ urlpatterns = [
     url(r'^delete_item/(?P<ID>\d+)/$', views.delete_item, name='delete_item'),
     url(r'^placeOrder/$', views.placeOrder, name='placeOrder'),
     url(r'^addTocart/(?P<foodID>\d+)/(?P<userID>\d+)/$', views.addTocart, name='addTocart'),
+
+    url(r'^dashboard/delivery_boy/$', views.delivery_boy, name='delivery_boy'),
 ]
