@@ -1,5 +1,5 @@
 {% load staticfiles %}
-
+{% load mathfilters %}
 {% include "includes/landing_top.html" %}
 
 <body>
@@ -16,12 +16,14 @@
 				<h2>Our Menu</h2>
 			</div>
 			<div class="menu-top-grids">
+				{% for food in foods %}
+				{% if forloop.counter0|mod:4 == 1 %}
 				<div class="w3ls-menu-grids">
-					{% for food in foods %}
+				{% endif %}
 					<div class="col-md-3 menu-grid">
 						<div class="agile-menu-grid">
 							<a href="{% url 'hotel:food_details' food.id %}">
-								<img src="{% static 'images/m1.jpg' %}" alt="" />
+								<img src="/media/{{food.image}}" alt="" height="200px" width="200px"/>
 								<div class="agileits-caption">
 									<h4>{{food.name}}</h4>
 									<p><i class="fa fa-inr"></i> {{food.sale_price}}</p>
@@ -29,9 +31,15 @@
 							</a>
 						</div>
 					</div>
-					{% endfor %}
-					<div class="clearfix"> </div>
+					<!--{% if forloop.counter0|mod:4 == 0 %}-->
+						<!--<div style="height:100px;"></div>-->
+					<!--{% endif %}-->
+
+				{% if forloop.counter0|mod:4 == 1 %}
 				</div>
+				{% endif %}
+				{% endfor %}
+				<div class="clearfix"> </div>
 			</div>
 		</div>
 	</div>

@@ -66,6 +66,7 @@ def dashboard_admin(request):
 @staff_member_required
 def users_admin(request):
     customers = Customer.objects.filter()
+    print(customers)
     return render(request, 'admin_temp/users.html', {'users':customers})
 
 @login_required
@@ -87,12 +88,23 @@ def sales_admin(request):
     return render(request, 'admin_temp/sales.html', {'sales':sales})
 
 def menu(request):
-    foods = Food.objects.filter(status="Enabled")
-    return render(request, 'menu.html', {'foods':foods})
+    cuisine = request.GET.get('cuisine')
+    print(cuisine)
+    if cuisine is not None:
+        if ((cuisine == "Gujarati") or (cuisine == "Punjabi")):
+            foods = Food.objects.filter(status="Enabled", course=cuisine)
+        elif(cuisine == "south"):
+            foods = Food.objects.filter(status="Enabled", course="South Indian")
+        elif(cuisine == "fast"):
+            foods = Food.objects.filter(course="Fast")
+    else:
+        foods = Food.objects.filter()
+    return render(request, 'menu.html', {'foods':foods, 'cuisine':cuisine})
 
 
 def index(request):
-    return render(request, 'index.html', {})
+    food = Food.objects.filter().order_by('-num_order')
+    return render(request, 'index.html', {'food':food})
 
 
 @login_required
@@ -191,6 +203,7 @@ def add_food(request):
 
         food = Food.objects.create(name=name, course=course, status=status, content_description=content, base_price=base_price, discount=discount, sale_price=sale_price, image=filename)
         food.save()
+        {{food.course}}
         foods = Food.objects.filter()
         success_msg = "Please enter valid details"
         return render(request, 'admin_temp/foods.html', {'foods': foods, 'success_msg': success_msg})

@@ -151,8 +151,8 @@ div#bs-example-navbar-collapse-1 {
 }
 .w3ls-special-img {
     padding: 0;
-    background: url(../../images/s1.jpg) no-repeat -17px 0px;
-    min-height: 171px;
+    height: 171px;
+    width: 190px;
     background-size: cover;
     text-align: center;
     position: relative;
@@ -1465,8 +1465,7 @@ h2.typoh2{
 	.w3ls-special-img {
 		width: 50%;
 		float: left;
-		min-height: 201px;
-		background: url(../images/s1.jpg) no-repeat -53px -195px;
+		height: 201px;
 	}
 	.agileits-special-info {
 		width: 50%;
@@ -1833,7 +1832,7 @@ h2.typoh2{
 		padding: 1em;
 	}
 	.w3ls-special-img {
-		min-height: 161px;
+		height: 161px;
 	}
 	.w3ls-special-text h4 {
 		margin: 2em 0 0 0;
@@ -1877,7 +1876,7 @@ h2.typoh2{
 		font-size: .9em;
 	}
 	.w3ls-special-img {
-		min-height: 150px;
+		height: 150px;
 	}
 	.w3ls-special-text:after {
 		width: 145px;
@@ -1948,8 +1947,7 @@ h2.typoh2{
 		font-size: 1.5em;
 	}
 	.w3ls-special-img {
-		min-height: 218px;
-		background: url(../images/s1.jpg) no-repeat 0px 0px;
+	    height: 218px;
 		background-size: cover;
 	}
 	.wthree-img{
@@ -2022,7 +2020,7 @@ h2.typoh2{
 		margin: 2em auto 1em;
 	}
 	.w3ls-special-img {
-		min-height: 182px;
+		height: 182px;
 	}
 	.w3ls-special-text h4 {
 		font-size: 1.5em;

@@ -1,5 +1,5 @@
 {% load staticfiles %}
-
+{% load mathfilters %}
 {% include "includes/landing_top.html" %}
 
 <body>
@@ -16,79 +16,23 @@
 				<h3>Today Specials</h3>
 			</div>
 			<div class="special-grids">
-				<div class="col-md-4 w3l-special-grid">
-					<div class="col-md-6 w3ls-special-img">
-						<div class="w3ls-special-text effect-1">
-							<h4>Aliquam</h4>
+			{% for f in food %}
+					<div class="col-md-4 w3l-special-grid">
+						<a href="{% url 'hotel:food_details' f.id %}">
+							<div class="col-md-6 w3ls-special-img" style="background: url('/media/{{f.image}}') no-repeat -17px 0px; background-size: cover;">
+								<div class="w3ls-special-text effect-1">
+									<h4>{{f.name|truncatechars:11}}</h4>
+								</div>
+							</div>
+						</a>
+
+						<div class="col-md-6 agileits-special-info">
+							<a href="{% url 'hotel:food_details' f.id %}"><h4>{{f.name|truncatechars:11}}</h4></a>
+							<p>{{f.content_description|truncatechars:90}}</p>
 						</div>
 					</div>
-					<div class="col-md-6 agileits-special-info">
-						<h4>Aliquam</h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-					</div>
+			{% endfor %}
 					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-4 w3l-special-grid">
-					<div class="col-md-6 w3ls-special-img wthree-img">
-						<div class="w3ls-special-text effect-1">
-							<h4>Nullam</h4>
-						</div>
-					</div>
-					<div class="col-md-6 agileits-special-info">
-						<h4>Nullam</h4>
-						<p>Maecenas ac hendrerit purus. Lorem ipsum dolor sit amet</p>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-4 w3l-special-grid">
-					<div class="col-md-6 w3ls-special-img wthree-img1">
-						<div class="w3ls-special-text effect-1">
-							<h4>Maecenas</h4>
-						</div>
-					</div>
-					<div class="col-md-6 agileits-special-info">
-						<h4>Maecenas</h4>
-						<p>Donec nibh enim, cursus sodales laoreet sit amet, tincidunt</p>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-4 w3l-special-grid">
-					<div class="col-md-6 agileits-special-info">
-						<h4>Aliquam</h4>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
-					</div>
-					<div class="col-md-6 w3ls-special-img wthree-img2">
-						<div class="w3ls-special-text effect-1">
-							<h4>Aliquam</h4>
-						</div>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-4 w3l-special-grid">
-					<div class="col-md-6 agileits-special-info">
-						<h4>Nullam</h4>
-						<p>Maecenas ac hendrerit purus. Lorem ipsum dolor sit amet</p>
-					</div>
-					<div class="col-md-6 w3ls-special-img wthree-img3">
-						<div class="w3ls-special-text effect-1">
-							<h4>Nullam</h4>
-						</div>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="col-md-4 w3l-special-grid">
-					<div class="col-md-6 agileits-special-info">
-						<h4>Maecenas</h4>
-						<p>Donec nibh enim, cursus sodales laoreet sit amet, tincidunt</p>
-					</div>
-					<div class="col-md-6 w3ls-special-img wthree-img4">
-						<div class="w3ls-special-text effect-1">
-							<h4>Maecenas</h4>
-						</div>
-					</div>
-					<div class="clearfix"> </div>
-				</div>
-				<div class="clearfix"> </div>
 			</div>
 		</div>
 	</div>

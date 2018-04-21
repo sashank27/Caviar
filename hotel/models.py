@@ -124,6 +124,7 @@ class Food(models.Model):
     sale_price = models.FloatField(default=base_price)
     discount = models.DecimalField(default=0, decimal_places=2, max_digits=5)
     image = models.FileField(blank=True, null =True)
+    num_order = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name

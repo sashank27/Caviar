@@ -17,25 +17,10 @@
 							<div class="blog-left">
 								<div class="single-left-left">
 									<p>Posted By <a href="#">Admin</a> &nbsp;&nbsp; on June 2, 2016 &nbsp;&nbsp; <a href="#">Comments (10)</a></p>
-									<img src="{% static 'images/m4.jpg' %}" alt="">
+									<img src="/media/{{food.image}}" alt="">
 								</div>
 								<div class="blog-left-bottom">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed blandit massa vel mauris sollicitudin 
-										dignissim. Phasellus ultrices tellus eget ipsum ornare molestie scelerisque eros dignissim. Phasellus 
-										fringilla hendrerit lectus nec vehicula. ultrices tellus eget ipsum ornare consectetur adipiscing elit.Sed blandit .
-									</p>
-								</div>
-								<div class="blog-left-bottom left-bottom">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed blandit massa vel mauris sollicitudin 
-										dignissim. Phasellus ultrices tellus eget ipsum ornare molestie scelerisque eros dignissim. Phasellus 
-										fringilla hendrerit lectus nec vehicula. ultrices tellus eget ipsum ornare consectetur adipiscing elit.Sed blandit .
-									</p>
-								</div>
-								<div class="blog-left-bottom left-bottom">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.Sed blandit massa vel mauris sollicitudin 
-										dignissim. Phasellus ultrices tellus eget ipsum ornare molestie scelerisque eros dignissim. Phasellus 
-										fringilla hendrerit lectus nec vehicula. ultrices tellus eget ipsum ornare consectetur adipiscing elit.Sed blandit .
-									</p>
+									<p>{{food.content_description}}</p>
 								</div>
 								<a href="{% url 'hotel:addTocart' food.id request.user.id %}">
 									<button class="btn btn-primary">Add to Cart</button>
