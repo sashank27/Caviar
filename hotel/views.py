@@ -15,7 +15,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.utils import timezone
 from reportlab.pdfgen import canvas
-from .models import Customer, Comment, Order, Food, Data, Cart, OrderContent, Staff
+from .models import Customer, Comment, Order, Food, Data, Cart, OrderContent, Staff, DeliveryBoy
 from .forms import SignUpForm
 
 def signup(request):
@@ -30,6 +30,10 @@ def signup(request):
             user.username = user.email.split('@')[0]
             user.set_password(form.cleaned_data['password'])
             user.save()
+            address = form.cleaned_data['address']
+            contact = form.cleaned_data['contact']
+            customer = Customer.objects.create(customer=user, address=address, contact=contact)
+            customer.save()
             return redirect('http://localhost:8000/accounts/login/')
         
     else:
@@ -73,7 +77,9 @@ def users_admin(request):
 @staff_member_required
 def orders_admin(request):
     orders = Order.objects.filter()
-    return render(request, 'admin_temp/orders.html', {'orders':orders})
+    dBoys = Staff.objects.filter(role='Delivery Boy')
+    print(dBoys)
+    return render(request, 'admin_temp/orders.html', {'orders':orders, 'dBoys':dBoys})
 
 @login_required
 @staff_member_required
@@ -214,11 +220,22 @@ def add_food(request):
 
         food = Food.objects.create(name=name, course=course, status=status, content_description=content, base_price=base_price, discount=discount, sale_price=sale_price, image=filename)
         food.save()
-        {{food.course}}
         foods = Food.objects.filter()
         success_msg = "Please enter valid details"
         return render(request, 'admin_temp/foods.html', {'foods': foods, 'success_msg': success_msg})
     return redirect('hotel:foods_admin')
+
+@login_required
+@staff_member_required
+def add_deliveryBoy(request, orderID):
+    order = Order.objects.get(id=orderID)
+    dName = request.POST['deliveryBoy']
+    print(dName)
+    user = User.objects.get(first_name=dName)
+    deliveryBoy = Staff.objects.get(staff_id=user)
+    order.delivery_boy = deliveryBoy
+    order.save()
+    return redirect('hotel:orders_admin')
 
 @login_required
 @staff_member_required
@@ -287,8 +304,8 @@ def cart(request):
 def placeOrder(request):
     to_email = []
     customer = Customer.objects.get(customer=request.user)
+    print(customer.address)
     items = Cart.objects.filter(user=request.user)
-    print(items)
     for item in items:
         food = item.food
         order = Order.objects.create(customer=customer, order_timestamp=timezone.now(), payment_status="Pending", 
@@ -320,8 +337,15 @@ def my_orders(request):
 @login_required
 def delivery_boy(request):
     user = User.objects.get(id=request.user.id)
-    staff = Staff.objects.get(staff_id=user)
-    if staff is None or staff.role != 'Delivery Boy':
-        return redirect('hotel:index')
-    else:
-        return render(request, 'delivery_boy.html')
+    try:
+        customer = Customer.objects.get(customer=user)
+    except Customer.DoesNotExist:
+        staff = Staff.objects.get(staff_id=user)
+        if staff is None or staff.role != 'Delivery Boy':
+            redirect('hotel:index')
+        else:
+            orders = DeliveryBoy.objects.filter(delivery_boy=staff)
+            return render(request, 'delivery_boy.html', {'orders':orders})
+    
+    return redirect('hotel:index')
+        

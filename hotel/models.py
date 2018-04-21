@@ -77,6 +77,7 @@ class Order(models.Model):
     total_amount = models.IntegerField()
     payment_method = models.CharField(max_length = 100, choices = PAYMENT)
     location = models.CharField(max_length=200, blank=True, null=True)
+    delivery_boy = models.ForeignKey(Staff,on_delete=models.CASCADE, null=True, blank=True)
 
     def confirmOrder(self):
         self.order_timestamp = timezone.localtime().__str__()[:19]

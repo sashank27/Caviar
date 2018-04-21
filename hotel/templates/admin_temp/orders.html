@@ -32,9 +32,9 @@
                                         <th>Amount</th>
                                         <th>Payment Method</th>
                                         <th>Payment Status</th>
-                                        <th>Confirm Payment</th>
-                                        <th>Delivery Time</th>
                                         <th>Delivery Status</th>
+                                        <th>Delivery Boy</th>
+                                        <th>Confirm Payment</th>
                                         <th>Confirm Delivery</th>
                                     </tr>
                                 </thead>
@@ -58,6 +58,49 @@
                                             <span class="label label-danger">Pending</span>
                                             {% endif %}
                                         </td>
+                                        <td>{% if order.delivery_status == 'Completed' %}
+                                            <span class="label label-success">Delivered</span>
+                                            {% else %}
+                                            <span class="label label-danger">Pending</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{% ifequal order.delivery_boy None %}
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#addFood">Add</button>
+                                                </span>
+                                                <br><br>
+                                                <div id="addFood" class="modal fade" role="dialog">
+                                                    <div class="modal-dialog">
+
+                                                        <!-- Modal content-->
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                <h4 class="modal-title">Add Delivery Boy</h4>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form method="POST" action="{% url 'hotel:add_deliveryBoy' order.id %}" enctype="multipart/form-data">
+                                                                    {% csrf_token %}
+                                                                    <div class="form-group">
+                                                                        <label for="deliveryBoy">DeliveryBoy:</label>
+                                                                        <select class="dropdown" id="deliveryBoy" name="deliveryBoy">
+                                                                            <option selected="selected">------</option>
+                                                                            {% for d in dBoys %}
+                                                                                <option value="{{d.staff_id.first_name}}">{{d.staff_id.first_name}} {{d.staff_id.last_name}}</option>
+                                                                            {% endfor %}
+                                                                        </select>
+                                                                    </div>
+                                                                    <button type="submit" class="btn btn-default">Submit</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            {% else %}
+                                            {{order.delivery_boy.staff_id.first_name}} {{order.delivery_boy.staff_id.last_name}}
+                                            {% endifequal %}
+                                        </td>
                                         <td>
                                             <a href="/confirm_order/{{order.id}}">
                                                 <span class="input-group-btn">
@@ -65,13 +108,7 @@
                                                 </span>
                                             </a>
                                         </td>
-                                        <td>{{order.delivery_timestamp}}</td>
-                                        <td>{% if order.delivery_status == 'Completed' %}
-                                            <span class="label label-success">Delivered</span>
-                                            {% else %}
-                                            <span class="label label-danger">Pending</span>
-                                            {% endif %}
-                                        </td>
+                                        
                                         <td>
                                             <a href="/confirm_delivery/{{order.id}}">
                                                 <span class="input-group-btn">

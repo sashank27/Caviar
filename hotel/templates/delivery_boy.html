@@ -3,7 +3,29 @@
 {% include "includes/navbarheader.html" %}
 {% include "includes/navtop.html" %}
         </nav>
-
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="sidebar-nav navbar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="sidebar-search">
+                        <div class="input-group custom-search-form">
+                            <input type="text" class="form-control" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                        <!-- /input-group -->
+                    </li>
+                    <li>
+                        <a href="{% url 'hotel:dashboard_admin' %}">
+                            <i class="fa fa-dashboard fa-fw"></i> Orders</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.sidebar-collapse -->
+        </div>
+        <!-- /.navbar-static-side -->
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
@@ -40,16 +62,16 @@
                                     {% for order in orders %}
                                     <tr>
                                         <td>{{order.id}}</td>
-                                        <td>{{order.customer.customer.first_name}} {{order.customer.customer.last_name}}</td>
-                                        <td>{% if order.if_cancelled == False %}
+                                        <td>{{order.order.customer.customer.first_name}} {{order.order.customer.customer.last_name}}</td>
+                                        <td>{% if order.order.if_cancelled == False %}
                                             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                                             {% else %}
                                             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                                             {% endif %}
                                         </td>
-                                        <td>{{order.order_timestamp}}</td>
-                                        <td>{{order.total_amount}}</td>
-                                        <td>{{order.payment_method}}</td>
+                                        <td>{{order.order.order_timestamp}}</td>
+                                        <td>{{order.order.total_amount}}</td>
+                                        <td>{{order.order.payment_method}}</td>
                                         <td>{% if order.payment_status == 'Completed' %}
                                             <span class="label label-success">Paid</span>
                                             {% else %}
@@ -63,8 +85,8 @@
                                                 </span>
                                             </a>
                                         </td>
-                                        <td>{{order.delivery_timestamp}}</td>
-                                        <td>{% if order.delivery_status == 'Completed' %}
+                                        <td>{{order.order.delivery_timestamp}}</td>
+                                        <td>{% if order.order.delivery_status == 'Completed' %}
                                             <span class="label label-success">Delivered</span>
                                             {% else %}
                                             <span class="label label-danger">Pending</span>
@@ -73,7 +95,7 @@
                                         <td>
                                             <a href="/confirm_delivery/{{order.id}}">
                                                 <span class="input-group-btn">
-                                                    <button class="btn btn-primary {%ifequal order.delivery_status 'Completed'%}disabled{%endifequal%}" type="button">Delivered</button>
+                                                    <button class="btn btn-primary {%ifequal order.order.delivery_status 'Completed'%}disabled{%endifequal%}" type="button">Deliver</button>
                                                 </span>
                                             </a>
                                         </td>
