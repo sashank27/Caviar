@@ -287,6 +287,13 @@ def placeOrder(request):
     return redirect('hotel:cart')
 
 @login_required
+def my_orders(request):
+    user = User.objects.get(id=request.user.id)
+    customer = Customer.objects.get(customer=request.user.id)
+    orders = Order.objects.filter(customer=customer)
+    return render(request, 'orders.html', {'orders': orders})
+
+@login_required
 def delivery_boy(request):
     user = User.objects.get(id=request.user.id)
     staff = Staff.objects.get(staff_id=user)

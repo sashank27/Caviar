@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^cart/$', views.cart, name='cart'),
     url(r'^menu/$', views.menu, name='menu'),
+    url(r'^myorders/$', views.my_orders, name='my_orders'),
     
     url(r'^dashboard/admin/users/$', views.users_admin, name='users_admin'),
     url(r'^dashboard/admin/orders/$', views.orders_admin, name='orders_admin'),

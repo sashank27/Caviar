@@ -1,0 +1,132 @@
+{% load staticfiles %}
+{% include "includes/base.html" %}
+{% include "includes/navbarheader.html" %}
+{% include "includes/navtop.html" %}
+<div class="navbar-default sidebar" role="navigation">
+    <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="sidebar-search">
+                <div class="input-group custom-search-form">
+                    <input type="text" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+                <!-- /input-group -->
+            </li>
+            <li>
+                <a href="/dashboard">
+                    <i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+            </li>
+            <li>
+                <a href="{% url 'hotel:my_orders' %}">
+                    <i class="fa fa-truck fa-fw"></i> Orders</a>
+            </li>
+        </ul>
+    </div>
+    <!-- /.sidebar-collapse -->
+</div>
+<!-- /.navbar-static-side -->
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Orders Information</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            List of all Orders
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Customer's Name</th>
+                                        <th>Order Status</th>
+                                        <th>Order Time</th>
+                                        <th>Amount</th>
+                                        <th>Payment Method</th>
+                                        <th>Payment Status</th>
+                                        <th>Delivery Time</th>
+                                        <th>Delivery Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                    <tr>
+                                        <td>{{order.id}}</td>
+                                        <td>{{order.customer.customer.first_name}} {{order.customer.customer.last_name}}</td>
+                                        <td>{% if order.if_cancelled == False %}
+                                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                            {% else %}
+                                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{order.order_timestamp}}</td>
+                                        <td>{{order.total_amount}}</td>
+                                        <td>{{order.payment_method}}</td>
+                                        <td>{% if order.payment_status == 'Completed' %}
+                                            <span class="label label-success">Paid</span>
+                                            {% else %}
+                                            <span class="label label-danger">Pending</span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{order.delivery_timestamp}}</td>
+                                        <td>{% if order.delivery_status == 'Completed' %}
+                                            <span class="label label-success">Delivered</span>
+                                            {% else %}
+                                            <span class="label label-danger">Pending</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <!-- /.row -->
+        </div>
+        <!-- /#page-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+    <script src="{% static 'vendor/jquery/jquery.min.js'%}"></script>
+
+    <!-- DataTables JavaScript -->
+    <script src="{% static '/vendor/datatables/js/jquery.dataTables.min.js'%}"></script>
+    <script src="{% static '/vendor/datatables-plugins/dataTables.bootstrap.min.js'%}"></script>
+    <script src="{% static '/vendor/datatables-responsive/dataTables.responsive.js'%}"></script>
+
+    <!-- Page-Level Demo Scripts - Tables - Use for reference -->
+    <script>
+        $(document).ready(function () {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
+
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js'%}"></script>
+    <script src="{% static 'vendor/metisMenu/metisMenu.min.js'%}"></script>
+    <script src="{% static 'dist/js/sb-admin-2.js'%}"></script>
+
+</body>
+
+</html>
