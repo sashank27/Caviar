@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^dashboard/admin/orders/confirm_delivery/(?P<orderID>\d+)/$', views.confirm_delivery, name='confirm_delivery'),
     
     url(r'^delete_item/(?P<ID>\d+)/$', views.delete_item, name='delete_item'),
+    url(r'^placeOrder/$', views.placeOrder, name='placeOrder'),
     url(r'^addTocart/(?P<foodID>\d+)/(?P<userID>\d+)/$', views.addTocart, name='addTocart'),
 ]

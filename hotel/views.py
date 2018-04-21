@@ -15,7 +15,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from django.utils import timezone
 from reportlab.pdfgen import canvas
-from .models import Customer, Comment, Order, Food, Data, Cart
+from .models import Customer, Comment, Order, Food, Data, Cart, OrderContent
 from .forms import SignUpForm
 
 def signup(request):
@@ -217,6 +217,8 @@ def add_sales(request):
 
     return redirect('hotel:foods_admin')
 
+@login_required
+@staff_member_required
 def edit_sales(request, saleID):
     data = Data.objects.filter(id=saleID)[0]
     if request.method == "POST":
@@ -229,10 +231,12 @@ def edit_sales(request, saleID):
         data.save()
     return redirect('hotel:sales_admin')
 
+@login_required
 def food_details(request, foodID):
     food = Food.objects.get(id=foodID)
     return render(request, 'user/single.html', {'food':food})
 
+@login_required
 def addTocart(request, foodID, userID):
     food = Food.objects.get(id=foodID)
     user = User.objects.get(id=userID)
@@ -240,11 +244,13 @@ def addTocart(request, foodID, userID):
     cart.save()
     return redirect('hotel:cart')
 
+@login_required
 def delete_item(request, ID):
     item = Cart.objects.get(id=ID)
     item.delete()
     return redirect('hotel:cart')
 
+@login_required
 def cart(request):
     user = User.objects.get(id=request.user.id)
     items = Cart.objects.filter(user=user)
@@ -252,3 +258,18 @@ def cart(request):
     for item in items:
         total += item.food.sale_price
     return render(request, 'cart.html', {'items': items, 'total':total})
+
+@login_required
+def placeOrder(request):
+    customer = Customer.objects.get(customer=request.user)
+    items = Cart.objects.filter(user=request.user)
+    print(items)
+    for item in items:
+        food = item.food
+        order = Order.objects.create(customer=customer, order_timestamp=timezone.now(), payment_status="Pending", 
+        delivery_status="Pending", total_amount=food.sale_price, payment_method="Cash On Delivery", location=customer.address)
+        order.save()
+        orderContent = OrderContent(food=food, order=order)
+        orderContent.save()
+        item.delete()
+    return redirect('hotel:cart')

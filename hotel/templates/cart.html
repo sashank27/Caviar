@@ -1,13 +1,13 @@
 {% load staticfiles %}
 
-{% include "../includes/landing_top.html" %}
+{% include "includes/landing_top.html" %}
 
 {% load mathfilters %}
 
 <body>
 	<div  class="bg-img">
 		<!-- banner -->
-		{% include "../includes/banner1.html" %}
+		{% include "includes/banner1.html" %}
 		<!-- //banner -->
 	</div>
 
@@ -39,7 +39,7 @@
                     <li class="row totals">
 						<span class="itemName">Total:</span>
 						<span class="price">Rs {{total}}</span>
-						<span class="order"> <a class="text-center">ORDER</a></span>
+						<span class="order"> <a class="text-center" href="http://localhost:8000/placeOrder/">ORDER</a></span>
 					</li>
 				</ul>
 			</div>

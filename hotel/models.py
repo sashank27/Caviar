@@ -71,13 +71,13 @@ class Order(models.Model):
     )
 
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)
-    order_timestamp = models.CharField(max_length=30, blank=True)
-    delivery_timestamp = models.CharField(max_length=30, blank=True)
-    payment_status = models.CharField(max_length = 30, choices = STATUS)
-    delivery_status = models.CharField(max_length = 30, choices = STATUS)
+    order_timestamp = models.CharField(max_length=100, blank=True)
+    delivery_timestamp = models.CharField(max_length=100, blank=True)
+    payment_status = models.CharField(max_length = 100, choices = STATUS)
+    delivery_status = models.CharField(max_length = 100, choices = STATUS)
     if_cancelled = models.BooleanField(default = False)
     total_amount = models.IntegerField()
-    payment_method = models.CharField(max_length = 30, choices = PAYMENT)
+    payment_method = models.CharField(max_length = 100, choices = PAYMENT)
     location = models.CharField(max_length=200, blank=True, null=True)
 
     def confirmOrder(self):

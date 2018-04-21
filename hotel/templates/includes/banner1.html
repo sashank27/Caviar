@@ -4,7 +4,7 @@
 			<div class="container">
 				<div class="header">
 					<div class="logo">
-						<h1><a href="index.html">Tasty</a></h1>
+						<h1><a href="index.html">Caviar</a></h1>
 					</div>
 					<div class="top-nav">
 						<nav class="navbar navbar-default">
@@ -15,7 +15,11 @@
 								<ul class="nav navbar-nav">
 									<li><a href="index.html">Home</a></li>
 									<li><a href="menu.html">Menu</a></li>
-									<li><a href="contact.html">Contact</a></li>
+									{% if user.is_authenticated %}
+									<li><a href="{% url 'hotel:dashboard_admin' %}">Dashboard</a></li>
+									{% else %}
+									<li><a href="/accounts/login/">Login</a></li>
+									{% endif %}
 									<div class="clearfix"> </div>
 								</ul>
 							</div>
