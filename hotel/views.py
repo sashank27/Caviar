@@ -123,9 +123,21 @@ def confirm_order(request, orderID):
 @login_required
 @staff_member_required
 def confirm_delivery(request, orderID):
+    to_email = []
     order = Order.objects.get(id=orderID)
     order.confirmDelivery()
     order.save()
+    mail_subject = 'Order Delivered successfully'
+    to = str(order.customer.customer.email)
+    to_email.append(to)
+    from_email = 'pradeepgangwar39@gmail.com'
+    message = "Hi "+order.customer.customer.first_name+" Your order was delivered successfully. Please go to your dashboard to see your order history. <br> Your order id is "+orderID+". Share ypour feedback woth us."
+    send_mail(
+        mail_subject,
+        message,
+        from_email,
+        to_email,
+    )
     return redirect('hotel:orders_admin')
 
 @login_required
@@ -273,6 +285,7 @@ def cart(request):
 
 @login_required
 def placeOrder(request):
+    to_email = []
     customer = Customer.objects.get(customer=request.user)
     items = Cart.objects.filter(user=request.user)
     print(items)
@@ -284,12 +297,23 @@ def placeOrder(request):
         orderContent = OrderContent(food=food, order=order)
         orderContent.save()
         item.delete()
+    mail_subject = 'Order Placed successfully'
+    to = str(customer.customer.email)
+    to_email.append(to)
+    from_email = 'pradeepgangwar39@gmail.com'
+    message = "Hi "+customer.customer.first_name+" Your order was placed successfully. Please go to your dashboard to see your order history. <br> Your order id is "+order.id+""
+    send_mail(
+        mail_subject,
+        message,
+        from_email,
+        to_email,
+    )
     return redirect('hotel:cart')
 
 @login_required
 def my_orders(request):
     user = User.objects.get(id=request.user.id)
-    customer = Customer.objects.get(customer=request.user.id)
+    customer = Customer.objects.get(customer=user)
     orders = Order.objects.filter(customer=customer)
     return render(request, 'orders.html', {'orders': orders})
 
